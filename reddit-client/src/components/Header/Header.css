@@ -1,0 +1,10 @@
+/* src/components/Header/Header.css */
+.app-header {
+  padding: 1rem;
+  border-bottom: 1px solid #ddd;
+}
+
+.app-header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+}
