@@ -1,16 +1,51 @@
-# React + Vite
+# Reddit Client
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Beschreibung
+Eine React-Anwendung, die Posts von Reddit anzeigt.  
+Nutzer können nach Begriffen suchen, Posts filtern und Details einsehen.
 
-Currently, two official plugins are available:
+## Wireframes
+Die Wireframes befinden sich im Ordner `/docs/wireframes/`.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Technologien
+- React (Vite)
+- Redux Toolkit
+- CSS
+- Jest & Enzyme für Unit Tests
+- Selenium für End-to-End Tests
 
-## React Compiler
+## Features
+- Ansicht von Reddit-Posts
+- Suchfunktion
+- Filterfunktion (hot, new, top)
+- Detailansicht für einzelne Posts
+- Responsives Design (Desktop & Mobile)
+- Fehler-Handling für API & leere Daten
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## State Management (Redux)
+Die Anwendung nutzt Redux für globales State Management.
 
-## Expanding the ESLint configuration
+### Globaler State umfasst:
+- **posts**
+  - Liste der Reddit-Posts
+  - Ladezustand (`loading`, `success`, `error`)
+  - Fehlermeldungen
+- **search**
+  - Aktueller Suchbegriff aus der SearchBar
+- **filters**
+  - Aktiver Filter (`hot`, `new`, `top`)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Begründung:
+Diese Daten werden von mehreren Komponenten genutzt und beeinflussen das Verhalten der gesamten Anwendung.  
+Lokaler State wäre hier unübersichtlich und schwer wartbar.
+
+## Future Work
+- API-Anbindung an Reddit
+- Redux für Posts implementieren
+- Routing zur Detailseite
+- Animationen & Übergänge
+- Lighthouse-Optimierung
+
+## Testing
+- Unit Tests mit Jest & Enzyme
+- End-to-End Tests mit Selenium
