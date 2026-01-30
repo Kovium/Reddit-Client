@@ -1,25 +1,23 @@
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setSearchTerm } from "../../features/search/searchSlice";
 import "./SearchBar.css";
 
 function SearchBar() {
-    const [searchTerm, setSearchTerm] = useState("");
+    const dispatch = useDispatch();
+    const searchTerm = useSelector((state) => state.search.term);
 
-    function handleSubmit(event) {
-        event.prevenDefault();
-        console.log("Search term:", searchTerm);
-    }
+    const handleChange = (e) => {
+        dispatch(setSearchTerm(e.target.value))
+    };
 
     return (
-        <form className="search-bar" onSubmit={handleSubmit}>
             <input
             type="text"
             placeholder="SearchReddit Posts"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            />
-            <button type="submit">Search</button>
-
-        </form>
-    )
+            className="search-bar"
+            />     
+    );
 }
 export default SearchBar;

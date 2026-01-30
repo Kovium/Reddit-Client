@@ -8,7 +8,9 @@ function PostList() {
 
     const activeFilter = useSelector((state) => state.filters.activeFilter);
 
-    const filteredPosts = posts.filter((post) => post.filterType === activeFilter);  // mockPosts must have an filterType
+    const searchTerm = useSelector((state) => state.search.term);
+
+    const filteredPosts = posts.filter((post) => post.filterType === activeFilter).filter((post) => post.title.toLowerCase().includes(searchTerm.toLowerCase()));  //Firstly Filter the activeFilter state, then checking the posttext appears in the searchterm 
 
     if(filteredPosts.length === 0){
         return <p className="postlist-empty">No posts available.</p>
