@@ -6,15 +6,19 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 export const fetchPosts = createAsyncThunk(
     
     "posts/fetchPosts",
-    async ({ filter, searchTerm }) => {
+    async ({ filter, searchTerm, after = null, before = null }) => {
         
         let url;
 
         if(searchTerm){
-            url = `https://www.reddit.com/search.json?q=${searchTerm}`;
+            url = `https://www.reddit.com/search.json?q=${searchTerm}&limit=10`;
         } else {
-            url = `https://www.reddit.com/${filter}.json`;
+            url = `https://www.reddit.com/${filter}.json?limit=10`;
         }
+
+        if (after) url += `&after=${after}`;
+        
+        if (before) url += `&before=${before}`;
 
         const response = await fetch(url);
 
@@ -24,15 +28,19 @@ export const fetchPosts = createAsyncThunk(
 
         const data = await response.json();
 
-        return data.data.children.map((item) => ({
+        return{
+            posts:data.data.children.map((item) => ({
             id: item.data.id,
             title: item.data.title,
             author: item.data.author,
             subreddit: item.data.subreddit,
             upvotes: item.data.ups,
             comments: item.data.num_comments,
-        }));
-    }
+        })),
+        after: data.data.after,
+        before: data.data.before,
+    };
+}
 );
 
 //------------------------------------------------------------------------------------------------------//
@@ -42,6 +50,8 @@ const initialState = {
 posts: [],          //List of Posts as Array 
 status: "idle",     //idle | loading | error
 error: null,        //Err-Msg
+after: null,        //For Pagination  
+before: null,
 };
 
 export const postsSlice = createSlice({
@@ -55,7 +65,9 @@ export const postsSlice = createSlice({
             })
             .addCase(fetchPosts.fulfilled, (state, action) => {
                 state.status = "succeeded";
-                state.posts = action.payload;
+                state.posts = action.payload.posts;
+                state.after = action.payload.after;
+                state.before = action.payload.before;
             })
             .addCase(fetchPosts.rejected, (state, action) => {
                 state.status = "failed";

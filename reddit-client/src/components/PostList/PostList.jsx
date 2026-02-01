@@ -6,12 +6,15 @@ import PostCard from "../PostCard/PostCard";
 import "./PostList.css";
 
 
+
 function PostList() {
     const dispatch = useDispatch();
 
     const posts = useSelector((state) => state.posts.posts);
     const status = useSelector((state) => state.posts.status);
     const error = useSelector((state) => state.posts.error);
+    const after = useSelector((state) => state.posts.after);
+    const before = useSelector((state) => state.posts.before);
 
     const activeFilter = useSelector((state) => state.filters.activeFilter);
     const searchTerm = useSelector((state) => state.search.term);
@@ -35,13 +38,46 @@ function PostList() {
 }
 
     return  (
-        <section className="post-list">
+        <div className="post-list-container">
+
+  {/* -------- Pagination Buttons oben -------- */}
+  <div className="pagination-top">
+    {before && (
+      <button onClick={() => dispatch(fetchPosts({ filter: activeFilter, searchTerm, before, after: null }))}>
+        ⬅️ Prev
+      </button>
+    )}
+    {after && (
+      <button onClick={() => dispatch(fetchPosts({ filter: activeFilter, searchTerm, after, before: null }))}>
+        Next ➡️
+      </button>
+    )}
+  </div>
+
+  {/* -------- Liste der Posts -------- */}
+   <section className="post-list">
             {posts.map((post) => (
                 <PostCard 
                 key={post.id} {...post}
                 />
             ))}
         </section>
-    )
-}
+
+  {/* -------- Pagination Buttons unten -------- */}
+  <div className="pagination-bottom">
+    {before && (
+      <button onClick={() => dispatch(fetchPosts({ filter: activeFilter, searchTerm, before, after: null }))}>
+        ⬅️ Prev
+      </button>
+    )}
+    {after && (
+      <button onClick={() => dispatch(fetchPosts({ filter: activeFilter, searchTerm, after, before: null }))}>
+        Next ➡️
+      </button>
+    )}
+  </div>
+
+</div>
+)}
+
 export default PostList;

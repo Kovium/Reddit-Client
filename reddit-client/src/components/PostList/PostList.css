@@ -17,3 +17,25 @@
 .error-state button {
   margin-top: 0.5rem;
 }
+
+.pagination-top,
+.pagination-bottom {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+button {
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  border: none;
+  background-color: #0079d3;
+  color: white;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+button:hover {
+  background-color: #005999;
+}
