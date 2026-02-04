@@ -24,10 +24,12 @@ export const fetchPosts = createAsyncThunk(
       throw new Error("Fehler beim Laden der Posts");
     }
 
-    const data = await response.json();
+    const json = await response.json();
+
+    const listing = json.data;
 
     return {
-      posts: data.data.children.map((item) => ({
+      posts: listing.children.map((item) => ({
         id: item.data.id,
         title: item.data.title,
         author: item.data.author,
@@ -35,14 +37,14 @@ export const fetchPosts = createAsyncThunk(
         upvotes: item.data.ups,
         comments: item.data.num_comments,
         image: item.data.preview?.images?.[0]?.source?.url
-          ? item.data.preview.images[0].source.url.replace(/&amp;/g, "&")
+          ? item.data.preview.images[0].source.url.replace(/&amp;/g, "&") //replacing all "&amp" with a single "&" sign. Browser can't read HTML entitys
           : null,
         video: item.data.is_video
           ? item.data.media?.reddit_video?.fallback_url
           : null,
       })),
-      after: data.data.after,
-      before: data.data.before,
+      after: listing.after,
+      before: listing.before,
     };
   },
 );
