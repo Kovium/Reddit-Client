@@ -7,17 +7,20 @@ import "./PostList.css";
 
 function PostList() {
   const dispatch = useDispatch();
-
-  const { posts, status, error, after, before } = useSelector(
-    (state) => state.posts,
-  );
-
-  const activeFilter = useSelector((state) => state.filters.activeFilter);
+  const { posts, status, error, after } = useSelector((state) => state.posts);
+  const { activeFilter } = useSelector((state) => state.filters);
   const searchTerm = useSelector((state) => state.search.term);
 
+  // initial laden
   useEffect(() => {
     dispatch(fetchPosts({ filter: activeFilter, searchTerm }));
   }, [dispatch, activeFilter, searchTerm]);
+
+  const handleNext = () => {
+    if (after) {
+      dispatch(fetchPosts({ filter: activeFilter, searchTerm, after }));
+    }
+  };
 
   if (status === "loading") return <p>Lade Posts...</p>;
 
@@ -39,84 +42,25 @@ function PostList() {
 
   return (
     <div className="post-list-container">
-      {/* -------- Pagination Buttons oben -------- */}
-      <div className="pagination-top">
-        {before && (
-          <button
-            onClick={() =>
-              dispatch(
-                fetchPosts({
-                  filter: activeFilter,
-                  searchTerm,
-                  before,
-                  after: null,
-                }),
-              )
-            }
-          >
-            ⬅️ Prev
-          </button>
-        )}
-        {after && (
-          <button
-            onClick={() =>
-              dispatch(
-                fetchPosts({
-                  filter: activeFilter,
-                  searchTerm,
-                  after,
-                  before: null,
-                }),
-              )
-            }
-          >
-            Next ➡️
-          </button>
-        )}
-      </div>
+      {/* -------- Next Button oben -------- */}
+      {after && (
+        <button className="next-button" onClick={handleNext}>
+          Next ➡️
+        </button>
+      )}
 
-      {/* -------- Liste der Posts -------- */}
       <section className="post-list">
         {posts.map((post) => (
           <PostCard key={post.id} {...post} />
         ))}
       </section>
 
-      {/* -------- Pagination Buttons unten -------- */}
-      <div className="pagination-bottom">
-        {before && (
-          <button
-            onClick={() =>
-              dispatch(
-                fetchPosts({
-                  filter: activeFilter,
-                  searchTerm,
-                  before,
-                  after: null,
-                }),
-              )
-            }
-          >
-            ⬅️ Prev
-          </button>
-        )}
-        {after && (
-          <button
-            onClick={() =>
-              dispatch(
-                fetchPosts({
-                  filter: activeFilter,
-                  searchTerm,
-                  after,
-                  before: null,
-                }),
-              )
-            }
-          >
-            Next ➡️
-          </button>
-        )}
-      </div>
+      {/* -------- Next Button unten -------- */}
+      {after && (
+        <button className="next-button" onClick={handleNext}>
+          Next ➡️
+        </button>
+      )}
     </div>
   );
 }

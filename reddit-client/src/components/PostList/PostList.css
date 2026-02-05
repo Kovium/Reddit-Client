@@ -1,5 +1,6 @@
 .post-list {
   margin-top: 1rem;
+  max-width: 500px;
 }
 
 .postlist-empty {
