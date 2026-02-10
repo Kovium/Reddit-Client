@@ -11,8 +11,8 @@ Die Wireframes befinden sich im Ordner `/docs/wireframes/`.
 - React (Vite)
 - Redux Toolkit
 - CSS
-- Jest & Enzyme für Unit Tests
-- Selenium für End-to-End Tests
+- Unit Tests: Jest + React Testing Library  
+- End-to-End Tests: Selenium
 
 ## Features
 - Ansicht von Reddit-Posts
@@ -47,5 +47,5 @@ Lokaler State wäre hier unübersichtlich und schwer wartbar.
 - Lighthouse-Optimierung
 
 ## Testing
-- Unit Tests mit Jest & Enzyme
-- End-to-End Tests mit Selenium
+- Unit Tests: Jest + React Testing Library
+- End-to-End Tests: Selenium
