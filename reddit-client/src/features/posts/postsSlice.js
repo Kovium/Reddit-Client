@@ -6,9 +6,9 @@ export const fetchPosts = createAsyncThunk(
   async ({ filter, searchTerm, after = null }) => {
     let url;
     if (searchTerm) {
-      url = `https://www.reddit.com/search.json?q=${searchTerm}&limit=10`;
+      url = `/api/search.json?q=${searchTerm}&limit=10`;
     } else {
-      url = `https://www.reddit.com/${filter}.json?limit=10`;
+      url = `/api/${filter}.json?limit=10`;
     }
     if (after) url += `&after=${after}`;
 
