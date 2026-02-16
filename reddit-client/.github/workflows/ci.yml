@@ -1,0 +1,38 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    
+    defaults:
+      run:
+        working-directory: reddit-client
+
+    steps:
+      - name: 📥 Repository auschecken
+        uses: actions/checkout@v4
+
+      - name: 🟢 Node installieren
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: 📦 Dependencies installieren
+        run: npm install
+
+      - name: 🧪 Unit Tests ausführen
+        run: npm test -- --run
+
+      - name: 🚀 Dev Server starten
+        run: |
+          npm run dev &
+          sleep 10
+
+      - name: 🌐 E2E Tests ausführen
+        run: npm run e2e
