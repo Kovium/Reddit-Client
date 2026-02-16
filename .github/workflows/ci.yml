@@ -2,33 +2,43 @@ name: CI Pipeline
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 📥 Repository auschecken
+      - name: 📥 Checkout Repository
         uses: actions/checkout@v4
 
-      - name: 🟢 Node installieren
+      - name: 🟢 Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 22
 
-      - name: 📦 Dependencies installieren
-        run: npm install
-
-      - name: 🧪 Unit Tests ausführen
-        run: npm test -- --run
-
-      - name: 🚀 Dev Server starten
+      - name: 📦 Install Dependencies
         run: |
+          cd reddit-client
+          npm install
+
+      - name: 🧪 Run Unit Tests
+        run: |
+          cd reddit-client
+          npm test -- --run
+
+      - name: 🌐 Install Chrome
+        uses: browser-actions/setup-chrome@v1
+
+      - name: 🚀 Start Dev Server
+        run: |
+          cd reddit-client
           npm run dev &
           sleep 10
 
-      - name: 🌐 E2E Tests ausführen
-        run: npm run e2e
+      - name: 🧪 Run E2E Tests
+        run: |
+          cd reddit-client
+          npm run e2e
