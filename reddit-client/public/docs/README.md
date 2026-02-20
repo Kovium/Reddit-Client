@@ -1,5 +1,7 @@
 # Reddit Client
 
+[![CI Pipeline](https://github.com/Kovium/Reddit-Client/actions/workflows/ci.yml/badge.svg)](https://github.com/DEIN_USERNAME/Reddit-Client/actions)
+
 ## Beschreibung
 Eine React-Anwendung, die Posts von Reddit anzeigt.  
 Nutzer können nach Begriffen suchen, Posts filtern und Details einsehen.

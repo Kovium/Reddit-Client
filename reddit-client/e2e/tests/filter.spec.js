@@ -5,8 +5,12 @@ const APP_URL = "http://localhost:5173/";
 
 async function run() {
   const options = new chrome.Options();
-  // Headless deaktiviert für Stabilität
-  // options.addArguments("--headless=new");
+
+  if (process.env.CI === "true") {
+    options.addArguments("--headless=new");
+    options.addArguments("--no-sandbox");
+    options.addArguments("--disable-dev-shm-usage");
+  }
 
   const driver = await new Builder()
     .forBrowser("chrome")
